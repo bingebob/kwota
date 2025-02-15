@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trailer Package Estimator</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="https://thetrailerfarm.com/assets/img/logo-white.svg" alt="The TrailerFarm" class="logo">
+        <h1>Trailer Package Estimator</h1>
+        
+        <div class="form-group">
+            <label>Select Your Base Service level:</label>
+            <div class="package-selector">
+                <label class="package-option rare">
+                    <input type="radio" name="packageType" id="rare" value="rare">
+                    <div class="package-content">
+                        <h3>Rare</h3>
+                        <div class="package-price">£7,500</div>
+                        <div class="package-description">Using your game capture, we'll create a high-quality trailer with motion graphics</div>
+                    </div>
+                </label>
+
+                <label class="package-option epic">
+                    <input type="radio" name="packageType" id="epic" value="epic">
+                    <div class="package-content">
+                        <h3>Epic</h3>
+                        <div class="package-price">£10,000</div>
+                        <div class="package-description">We handle the game capture plus additional edit iterations</div>
+                    </div>
+                </label>
+
+                <label class="package-option legendary">
+                    <input type="radio" name="packageType" id="legendary" value="legendary">
+                    <div class="package-content">
+                        <h3>Legendary</h3>
+                        <div class="package-price">£15,000</div>
+                        <div class="package-description">Extended collaboration with paper edit and motion graphics feedback</div>
+                    </div>
+                </label>
+
+                <label class="package-option mythic">
+                    <input type="radio" name="packageType" id="mythic" value="mythic">
+                    <div class="package-content">
+                        <h3>Mythic</h3>
+                        <div class="package-price">£20,000</div>
+                        <div class="package-description">Premium experience with advanced gameplay and intricate storytelling</div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Additional Services</label>
+            
+            <div class="slider-group" id="captureGroup">
+                <h4>Direct Your Capture</h4>
+                <div class="slider-container">
+                    <input type="range" id="capture" min="0" max="5" step="1" value="0">
+                    <div class="slider-value">No Extra Sessions</div>
+                </div>
+                <div class="slider-ticks">
+                    <div class="tick">0</div>
+                    <div class="tick">1</div>
+                    <div class="tick">2</div>
+                    <div class="tick">3</div>
+                    <div class="tick">4</div>
+                    <div class="tick">5</div>
+                </div>
+                <div class="service-level-description"></div>
+            </div>
+
+            <div class="slider-group">
+                <h4>Voiceover</h4>
+                <div class="slider-container">
+                    <input type="range" id="voiceover" min="0" max="1" step="1" value="0">
+                    <div class="slider-value">No Voiceover</div>
+                </div>
+                <div class="slider-ticks">
+                    <div class="tick">None</div>
+                    <div class="tick">£1,000</div>
+                </div>
+                <div class="service-level-description"></div>
+            </div>
+
+            <div class="slider-group">
+                <h4>Music</h4>
+                <div class="slider-container">
+                    <input type="range" id="music" min="0" max="2" step="1" value="0">
+                    <div class="slider-value">Using Provided Music</div>
+                </div>
+                <div class="slider-ticks">
+                    <div class="tick">Provided</div>
+                    <div class="tick">Library<br>£575</div>
+                    <div class="tick">Premium<br>£2,000</div>
+                </div>
+                <div class="service-level-description"></div>
+            </div>
+
+            <div class="slider-group">
+                <h4>Additional Audio Design and SFX</h4>
+                <div class="slider-container">
+                    <input type="range" id="audio" min="0" max="2000" step="500" value="0">
+                    <div class="slider-value">Standard Mix</div>
+                </div>
+                <div class="slider-ticks">
+                    <div class="tick">Standard</div>
+                    <div class="tick">£500</div>
+                    <div class="tick">£1,000</div>
+                    <div class="tick">£1,500</div>
+                    <div class="tick">£2,000</div>
+                </div>
+                <div class="service-level-description"></div>
+            </div>
+
+            <div class="slider-group">
+                <h4>Premium Motion Graphics</h4>
+                <div class="slider-container">
+                    <input type="range" id="motion" min="0" max="12000" step="600" value="0">
+                    <div class="slider-value">No Title Cards</div>
+                </div>
+                <div class="slider-ticks">
+                    <div class="tick">None</div>
+                    <div class="tick">Basic<br>£3,000</div>
+                    <div class="tick">Standard<br>£6,000</div>
+                    <div class="tick">Premium<br>£9,000</div>
+                    <div class="tick">Custom<br>£12,000</div>
+                </div>
+                <div class="service-level-description"></div>
+            </div>
+
+            <div class="slider-group">
+                <h4>Versioning</h4>
+                <div class="slider-container">
+                    <input type="range" id="versioning" min="0" max="1" step="1" value="0">
+                    <div class="slider-value">Standard Version</div>
+                </div>
+                <div class="slider-ticks">
+                    <div class="tick">Standard</div>
+                    <div class="tick">Custom</div>
+                </div>
+                <div class="service-level-description"></div>
+                <div class="sub-sliders" id="versioningOptions">
+                    <div class="slider-container">
+                        <label>Portrait Version</label>
+                        <input type="range" id="portrait" min="0" max="1" step="1" value="0">
+                        <div class="slider-value">No</div>
+                    </div>
+                    <div class="slider-ticks">
+                        <div class="tick">No</div>
+                        <div class="tick">Yes (£1,000)</div>
+                    </div>
+
+                    <div class="slider-container">
+                        <label>Landscape Version</label>
+                        <input type="range" id="landscape" min="0" max="1" step="1" value="0">
+                        <div class="slider-value">No</div>
+                    </div>
+                    <div class="slider-ticks">
+                        <div class="tick">No</div>
+                        <div class="tick">Yes (£1,000)</div>
+                    </div>
+
+                    <div class="slider-container">
+                        <label>Square Version</label>
+                        <input type="range" id="square" min="0" max="1" step="1" value="0">
+                        <div class="slider-value">No</div>
+                    </div>
+                    <div class="slider-ticks">
+                        <div class="tick">No</div>
+                        <div class="tick">Yes (£1,000)</div>
+                    </div>
+
+                    <div class="slider-container">
+                        <label>Language Packages</label>
+                        <input type="range" id="languages" min="0" max="10" step="1" value="0">
+                        <div class="slider-value">None</div>
+                    </div>
+                    <div class="slider-ticks">
+                        <div class="tick">0</div>
+                        <div class="tick">2</div>
+                        <div class="tick">4</div>
+                        <div class="tick">6</div>
+                        <div class="tick">8</div>
+                        <div class="tick">10</div>
+                    </div>
+                    <div class="service-level-description"></div>
+                </div>
+            </div>
+
+            <div class="slider-group">
+                <h4>End Slate Creation</h4>
+                <div class="slider-container">
+                    <input type="range" id="endslate" min="0" max="12000" step="600" value="0">
+                    <div class="slider-value">Basic Included</div>
+                </div>
+                <div class="slider-ticks">
+                    <div class="tick">Basic<br>Included</div>
+                    <div class="tick">Standard<br>£3,000</div>
+                    <div class="tick">Advanced<br>£6,000</div>
+                    <div class="tick">Premium<br>£9,000</div>
+                    <div class="tick">Custom<br>£12,000</div>
+                </div>
+                <div class="service-level-description"></div>
+            </div>
+
+            <div class="slider-group">
+                <h4>Source Files</h4>
+                <div class="slider-container">
+                    <input type="range" id="sourceFiles" min="0" max="2" step="1" value="0">
+                    <div class="slider-value">Lossless Included</div>
+                </div>
+                <div class="slider-ticks">
+                    <div class="tick">Lossless<br>Included</div>
+                    <div class="tick">After Effects<br>+30% MG</div>
+                    <div class="tick">Premiere<br>+20% Base</div>
+                </div>
+                <div class="service-level-description"></div>
+            </div>
+        </div>
+
+        <div class="currency-selector">
+            <div class="currency-option active" data-currency="GBP">
+                <img src="https://flagcdn.com/w20/gb.png" alt="GBP">
+                <span>GBP</span>
+            </div>
+            <div class="currency-option" data-currency="USD">
+                <img src="https://flagcdn.com/w20/us.png" alt="USD">
+                <span>USD</span>
+            </div>
+            <div class="currency-option" data-currency="EUR">
+                <img src="https://flagcdn.com/w20/eu.png" alt="EUR">
+                <span>EUR</span>
+            </div>
+        </div>
+
+        <div id="result">
+            <div class="cost-breakdown">
+                <div class="cost-item">
+                    <span class="cost-label">Base Package</span>
+                    <span class="cost-value" id="basePrice">£0</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-label">Additional Services</span>
+                    <span class="cost-value" id="additionalPrice">£0</span>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <div class="cost-item">
+                    <span class="cost-label">Total Estimate</span>
+                    <span class="total-cost" id="totalPrice">£0</span>
+                </div>
+                <button class="quote-button" onclick="showQuote()">
+                    Create Quote
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="quoteOverlay">
+        <div class="quote-container">
+            <button class="close-quote" onclick="closeQuote()">&times;</button>
+            <div class="quote-header">
+                <img src="https://thetrailerfarm.com/assets/img/logo-white.svg" alt="The TrailerFarm">
+                <h2>Trailer Package Quote</h2>
+                <div class="quote-date"></div>
+            </div>
+            <div class="quote-content">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+            <div class="quote-footer">
+                <p>The TrailerFarm - Game Trailer Specialists</p>
+                <p>This quote is valid for 30 days from the date shown above.</p>
+                <a href="#" class="download-pdf" onclick="generateQuotePDF()">Download as PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
