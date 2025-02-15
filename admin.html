@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrailerFarm Estimator Admin</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-dark text-light">
+    <div class="container py-5">
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <img src="https://thetrailerfarm.com/assets/img/logo-white.svg" 
+                 alt="The TrailerFarm" class="logo mx-auto mb-3">
+            <h1 class="display-4 fw-bold text-uppercase">Estimator Admin</h1>
+        </div>
+
+        <!-- Package Prices -->
+        <section class="card bg-dark border-danger mb-5">
+            <div class="card-header border-danger">
+                <h2 class="h4 mb-0">Base Package Prices</h2>
+            </div>
+            <div class="card-body">
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <label class="form-label">Rare Package</label>
+                        <div class="input-group">
+                            <span class="input-group-text">£</span>
+                            <input type="number" class="form-control" id="rarePrice" value="7500">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Epic Package</label>
+                        <div class="input-group">
+                            <span class="input-group-text">£</span>
+                            <input type="number" class="form-control" id="epicPrice" value="10000">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Legendary Package</label>
+                        <div class="input-group">
+                            <span class="input-group-text">£</span>
+                            <input type="number" class="form-control" id="legendaryPrice" value="15000">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Mythic Package</label>
+                        <div class="input-group">
+                            <span class="input-group-text">£</span>
+                            <input type="number" class="form-control" id="mythicPrice" value="20000">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Additional Services Configuration -->
+        <section class="card bg-dark border-danger mb-5">
+            <div class="card-header border-danger">
+                <h2 class="h4 mb-0">Additional Services</h2>
+            </div>
+            <div class="card-body">
+                <!-- Service configurations will be dynamically loaded here -->
+                <div id="serviceConfigs"></div>
+            </div>
+        </section>
+
+        <!-- Add before the Save Changes button -->
+        <div class="text-center mb-4">
+            <button class="btn btn-outline-light me-2" onclick="importConfig()">
+                Import Configuration
+            </button>
+            <button class="btn btn-outline-light" onclick="exportConfig()">
+                Export Configuration
+            </button>
+        </div>
+
+        <!-- Save Changes -->
+        <div class="text-center">
+            <button class="btn btn-danger btn-lg px-5" onclick="saveConfigurations()">
+                Save Changes
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

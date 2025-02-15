@@ -1,0 +1,65 @@
+/* Remove or comment out these conflicting styles */
+/* .package-card {
+    background-color: var(--tf-dark);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    height: 100%;
+    cursor: pointer;
+    display: block;
+    position: relative;
+}
+
+.package-card:hover {
+    transform: translateY(-5px);
+}
+
+.package-card.rare:hover { box-shadow: 0 0 20px rgba(74, 158, 255, 0.3); }
+.package-card.epic:hover { box-shadow: 0 0 20px rgba(184, 71, 255, 0.3); }
+.package-card.legendary:hover { box-shadow: 0 0 20px rgba(255, 179, 71, 0.3); }
+.package-card.mythic:hover { box-shadow: 0 0 20px rgba(255, 71, 71, 0.3); }
+*/
+
+/* Keep only the slider styles */
+.slider-container {
+    position: relative;
+    padding: 1rem 0;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to right, var(--tf-accent) 0%, var(--tf-gray) 0%);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--tf-accent);
+    border: 2px solid var(--tf-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 10px rgba(160, 110, 237, 0.3);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(160, 110, 237, 0.5);
+}
+
+.slider-value {
+    min-width: 120px;
+    text-align: right;
+    font-weight: bold;
+    color: var(--tf-accent);
+}
+
+/* Bottom Bar */
+.fixed-bottom {
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+} 

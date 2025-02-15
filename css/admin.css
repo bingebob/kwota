@@ -1,0 +1,96 @@
+:root {
+    --tf-dark: #0D0D0D;
+    --tf-light: #FFFFFF;
+    --tf-accent: #FF3366;
+    --tf-gray: #333333;
+}
+
+body {
+    background-color: var(--tf-dark);
+    color: var(--tf-light);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.logo {
+    width: 200px;
+}
+
+.card {
+    background-color: var(--tf-dark) !important;
+}
+
+.form-control, .input-group-text {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--tf-accent);
+    color: var(--tf-light);
+}
+
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--tf-accent);
+    color: var(--tf-light);
+    box-shadow: 0 0 0 0.25rem rgba(255, 51, 102, 0.25);
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+textarea.form-control {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--tf-light);
+}
+
+textarea.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.form-label {
+    color: var(--tf-light);
+    opacity: 0.9;
+}
+
+.text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.form-check-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--tf-accent);
+}
+
+.form-check-input:checked {
+    background-color: var(--tf-accent);
+    border-color: var(--tf-accent);
+}
+
+.form-check-label {
+    color: var(--tf-light);
+}
+
+.service-config {
+    background-color: rgba(51, 51, 51, 0.2);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.btn-danger {
+    background-color: var(--tf-accent);
+    border-color: var(--tf-accent);
+}
+
+.btn-danger:hover {
+    background-color: #ff1f57;
+    border-color: #ff1f57;
+}
+
+/* Toast Notifications */
+.toast {
+    background-color: var(--tf-dark);
+    border: 1px solid var(--tf-accent);
+}
+
+.toast-header {
+    border-bottom-color: var(--tf-accent);
+} 
