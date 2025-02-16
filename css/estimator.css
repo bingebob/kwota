@@ -20,7 +20,7 @@
 .package-card.mythic:hover { box-shadow: 0 0 20px rgba(255, 71, 71, 0.3); }
 */
 
-/* Keep only the slider styles */
+/* Slider Components */
 .slider-container {
     position: relative;
     padding: 1rem 0;
@@ -33,23 +33,23 @@ input[type="range"] {
     background: linear-gradient(to right, var(--tf-accent) 0%, var(--tf-gray) 0%);
     outline: none;
     transition: all 0.3s ease;
-}
 
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--tf-accent);
-    border: 2px solid var(--tf-light);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 0 10px rgba(160, 110, 237, 0.3);
-}
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--tf-accent);
+        border: 2px solid var(--tf-light);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 0 10px rgba(160, 110, 237, 0.3);
 
-input[type="range"]::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(160, 110, 237, 0.5);
+        &:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(160, 110, 237, 0.5);
+        }
+    }
 }
 
 .slider-value {
@@ -59,7 +59,54 @@ input[type="range"]::-webkit-slider-thumb:hover {
     color: var(--tf-accent);
 }
 
-/* Bottom Bar */
+/* Service Options */
+.service-description {
+    font-size: 0.875rem;
+    color: var(--tf-light);
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
+
+/* Cost Summary */
+.cost-item {
+    .text-muted {
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
+    }
+}
+
+/* Fixed Bottom Bar */
 .fixed-bottom {
     box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+    z-index: 1030;
+}
+
+/* Quote Modal */
+.quote-content {
+    .quote-section {
+        & + .quote-section {
+            margin-top: 1.5rem;
+        }
+    }
+
+    .text-muted {
+        font-size: 0.875rem;
+    }
+}
+
+/* Versioning Options */
+#versioningOptions {
+    transition: all 0.3s ease;
+    
+    &.d-none {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.rare-container {
+  background-image: url('https://i.pinimg.com/originals/1a/1e/79/1a1e7993ad97038c83ee9784c4bb9e7a.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 } 

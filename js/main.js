@@ -641,4 +641,10 @@ function updateHeaderState(loading = false) {
     }
 }
 
+// Add the Pixel and PixelCanvas classes here
+// ... (paste the provided JavaScript code) ...
+
+// Register the custom element
+PixelCanvas.register();
+
 // ... other functions 

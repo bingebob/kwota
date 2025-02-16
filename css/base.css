@@ -1,155 +1,115 @@
+/* Variables */
 :root {
     --tf-dark: #0D0D0D;
     --tf-light: #FFFFFF;
     --tf-accent: #FF3366;
     --tf-gray: #a06ced;
     --rare: #4A9EFF;
+    --rare-rgb: 74, 158, 255;
     --epic: #B847FF;
+    --epic-rgb: 184, 71, 255;
     --legendary: #FFB347;
+    --legendary-rgb: 255, 179, 71;
     --mythic: #FF4747;
+    --mythic-rgb: 255, 71, 71;
+    --bg: #09090b;
+    --surface-1: #101012;
+    --surface-2: #27272a;
+    --surface-3: #52525b;
+    --ease-out: cubic-bezier(0.5, 1, 0.89, 1);
+    --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
 }
 
+/* Base Styles */
 body {
     background-color: var(--tf-dark);
     color: var(--tf-light);
     font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
-.logo {
-    width: 200px;
-}
+/* Header Styles */
+.logo { width: 200px; }
+.logo-small { width: 120px; height: auto; }
 
-/* Form Controls */
-.form-control, .input-group-text {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: var(--tf-accent);
-    color: var(--tf-light);
-}
-
-.form-control:focus {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: var(--tf-accent);
-    color: var(--tf-light);
-    box-shadow: 0 0 0 0.25rem rgba(255, 51, 102, 0.25);
-}
-
-.form-control::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-textarea.form-control {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--tf-light);
-}
-
-textarea.form-control:focus {
-    background-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Labels and Text */
-.form-label {
-    color: var(--tf-light);
-    opacity: 0.9;
-}
-
-.text-muted {
-    color: rgba(255, 255, 255, 0.7) !important;
-}
-
-/* Buttons */
-.btn-danger {
-    background-color: var(--tf-accent);
-    border-color: var(--tf-accent);
-}
-
-.btn-danger:hover {
-    background-color: #ff1f57;
-    border-color: #ff1f57;
-}
-
-/* Cards */
-.card {
-    background-color: var(--tf-dark) !important;
-}
-
-/* Form Switches */
-.form-check-input {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: var(--tf-accent);
-}
-
-.form-check-input:checked {
-    background-color: var(--tf-accent);
-    border-color: var(--tf-accent);
-}
-
-.form-check-label {
-    color: var(--tf-light);
-}
-
-/* Modals */
-.modal-content {
-    background-color: var(--tf-dark);
-    border: 2px solid var(--tf-accent);
-}
-
-.modal-header, .modal-footer {
-    border-color: var(--tf-accent);
-}
-
-.btn-close-white {
-    filter: brightness(0) invert(1);
-}
-
-.quote-section {
-    padding: 1rem;
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.05);
-    margin-bottom: 1rem;
-}
-
-.quote-section:last-child {
-    margin-bottom: 0;
-}
-
-/* Add to base.css */
-@keyframes borderFlame {
-    0%, 100% { border-image: none; }
-}
-
-/* Currency Selector */
-.currency-selector {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-bottom: 2rem;
-}
-
-.currency-option {
-    background: transparent;
-    border: 2px solid var(--tf-gray);
-    color: var(--tf-light);
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
+.header-logo {
     transition: all 0.3s ease;
 }
 
-.currency-option:hover {
-    border-color: var(--tf-accent);
-    transform: translateY(-2px);
+.header-logo:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px rgba(255, 51, 102, 0.3));
 }
 
-.currency-option.active {
-    background-color: var(--tf-accent);
-    border-color: var(--tf-accent);
+/* Package Cards */
+.card {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-areas: "card";
+    place-items: center;
+    aspect-ratio: 4/5;
+    border: 2px solid var(--active-color);
+    isolation: isolate;
+    transition: border-color 200ms var(--ease-out);
+    user-select: none;
+    background: var(--bg);
+    cursor: pointer;
 }
 
-/* Header Styles */
-.logo-small {
-    width: 120px;
-    height: auto;
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at bottom left,
+        transparent 55%,
+        var(--surface-1)
+    );
+    pointer-events: none;
+    box-shadow: var(--bg) -0.5cqi 0.5cqi 2.5cqi inset;
+    transition: opacity 900ms var(--ease-out);
 }
 
+.card > * {
+    grid-area: card;
+}
+
+.card-content {
+    position: relative;
+    z-index: 2;
+    padding: 1.5rem;
+    width: 100%;
+    height: 100%;
+    color: var(--tf-light);
+}
+
+.card-content-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 300ms var(--ease-out);
+}
+
+/* Package Card Colors */
+.package-card.rare { --active-color: var(--rare); }
+.package-card.epic { --active-color: var(--epic); }
+.package-card.legendary { --active-color: var(--legendary); }
+.package-card.mythic { --active-color: var(--mythic); }
+
+/* Package Card States */
+.package-card:hover .card,
+.package-card input[type="radio"]:checked + .card {
+    border-width: 3px;
+    box-shadow: 0 0 20px rgba(var(--active-color-rgb), 0.3);
+}
+
+.package-card:hover .card::before,
+.package-card input[type="radio"]:checked + .card::before {
+    opacity: 0;
+}
+
+/* Currency Selector */
 .currency-selector-compact {
     display: flex;
     gap: 0.5rem;
@@ -166,27 +126,131 @@ textarea.form-control:focus {
     display: flex;
     align-items: center;
     gap: 0.25rem;
+
+    &:hover {
+        border-color: var(--tf-accent);
+        transform: translateY(-1px);
+    }
+
+    &.active {
+        background-color: var(--tf-accent);
+        border-color: var(--tf-accent);
+    }
+
+    & img {
+        width: 16px;
+        height: auto;
+    }
+
+    &.invalid {
+        border-color: #dc3545;
+        animation: shake 0.5s;
+    }
 }
 
-.currency-option-small img {
-    width: 16px;
-    height: auto;
-}
-
-.currency-option-small:hover {
+/* Form Elements */
+.form-control, 
+.input-group-text,
+textarea.form-control {
+    background-color: rgba(255, 255, 255, 0.1);
     border-color: var(--tf-accent);
-    transform: translateY(-1px);
+    color: var(--tf-light);
 }
 
-.currency-option-small.active {
+.form-control:focus,
+textarea.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--tf-accent);
+    color: var(--tf-light);
+    box-shadow: 0 0 0 0.25rem rgba(255, 51, 102, 0.25);
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-check-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--tf-accent);
+
+    &:checked {
+        background-color: var(--tf-accent);
+        border-color: var(--tf-accent);
+    }
+}
+
+.form-label {
+    color: var(--tf-light);
+    opacity: 0.9;
+}
+
+/* Buttons */
+.btn-danger {
     background-color: var(--tf-accent);
     border-color: var(--tf-accent);
+
+    &:hover {
+        background-color: #ff1f57;
+        border-color: #ff1f57;
+    }
 }
 
-/* Add Bootstrap Icons */
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css");
+.admin-link {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
 
-/* Mobile-friendly header styles */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+        );
+        transition: 0.5s;
+    }
+
+    &:hover::before {
+        left: 100%;
+    }
+}
+
+/* Modal Styles */
+.modal-content {
+    background-color: var(--tf-dark);
+    border: 2px solid var(--tf-accent);
+}
+
+.modal-header, 
+.modal-footer {
+    border-color: var(--tf-accent);
+}
+
+.quote-section {
+    padding: 1rem;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.05);
+    margin-bottom: 1rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* Animations */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -218,189 +282,5 @@ textarea.form-control:focus {
     }
 }
 
-/* Enhanced header animations */
-.header-logo {
-    transition: all 0.3s ease;
-}
-
-.header-logo:hover {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 10px rgba(255, 51, 102, 0.3));
-}
-
-/* Improved admin button */
-.admin-link {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.admin-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
-    transition: 0.5s;
-}
-
-.admin-link:hover::before {
-    left: 100%;
-}
-
-/* Header validation indicators */
-.currency-option-small.invalid {
-    border-color: #dc3545;
-    animation: shake 0.5s;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
-/* Package Cards with Squircle Design */
-.package-card {
-    --size: 100%;
-    position: relative;
-    width: var(--size);
-    height: 100%;
-    min-height: 300px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-.package-card * {
-    box-shadow: none !important;
-}
-
-.package-card::before,
-.package-card::after {
-    display: none !important;
-}
-
-.card-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    padding: 1.5rem;
-    z-index: 2;
-    background: var(--tf-dark);
-    clip-path: url(#squircleClip);
-    border: none !important;
-    box-shadow: none !important;
-}
-
-.card-content::before,
-.card-content::after {
-    display: none !important;
-}
-
-/* Remove ALL possible old styles */
-.rare-content,
-.epic-content,
-.legendary-content,
-.mythic-content,
-[class*="-content"] {
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-/* Ensure border is only coming from card-border */
-.card-border {
-    position: absolute;
-    inset: 0;
-    clip-path: url(#squircleClip);
-    scale: 1;
-    opacity: 0.7;
-    transition: 0.3s cubic-bezier(.51,.61,0,2.3);
-    z-index: 1;
-    border: none !important;
-}
-
-/* Reset any animations */
-.package-card,
-.package-card *,
-.card-content,
-.card-border {
-    animation: none !important;
-}
-
-/* Border colors and effects */
-.package-card.rare .card-border { 
-    background: var(--rare);
-    box-shadow:
-        inset 10px 10px 20px color-mix(in srgb, var(--rare) 70%, white),
-        inset -10px -10px 20px color-mix(in srgb, var(--rare) 50%, black);
-}
-
-.package-card.epic .card-border { 
-    background: var(--epic);
-    box-shadow:
-        inset 10px 10px 20px color-mix(in srgb, var(--epic) 70%, white),
-        inset -10px -10px 20px color-mix(in srgb, var(--epic) 50%, black);
-}
-
-.package-card.legendary .card-border { 
-    background: var(--legendary);
-    box-shadow:
-        inset 10px 10px 20px color-mix(in srgb, var(--legendary) 70%, white),
-        inset -10px -10px 20px color-mix(in srgb, var(--legendary) 50%, black);
-}
-
-.package-card.mythic .card-border { 
-    background: var(--mythic);
-    box-shadow:
-        inset 10px 10px 20px color-mix(in srgb, var(--mythic) 70%, white),
-        inset -10px -10px 20px color-mix(in srgb, var(--mythic) 50%, black);
-}
-
-/* Hover and selected states */
-.package-card:hover .card-border,
-.package-card input[type="radio"]:checked + .card-content + .card-border {
-    scale: 1.02;
-    opacity: 1;
-    z-index: 1;
-}
-
-/* Optional background image support */
-.card-background {
-    position: absolute;
-    inset: 0;
-    clip-path: url(#squircleClip);
-    z-index: 0;
-}
-
-.card-background img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Content styling */
-.card-content-inner {
-    position: relative;
-    z-index: 3;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.3s ease;
-    background: transparent;
-}
-
-.package-card:hover .card-content-inner {
-    transform: scale(1.02);
-} 
+/* External Dependencies */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"); 
