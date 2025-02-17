@@ -1,91 +1,18 @@
-// Service configurations
-const serviceConfigs = {
-    capture: {
-        title: "Direct Your Capture",
-        type: "range",
-        min: 0,
-        max: 5,
-        step: 1,
-        basePrice: 360,
-        description: "Cost per capture session",
-        labels: ["0", "1", "2", "3", "4", "5"]
-    },
-    voiceover: {
-        title: "Voiceover",
-        type: "toggle",
-        price: 1000,
-        description: "Professional voiceover recording with remote casting"
-    },
-    music: {
-        title: "Music",
-        type: "select",
-        options: [
-            { label: "Using Provided Music", price: 0 },
-            { label: "Library Music", price: 575 },
-            { label: "Premium Music", price: 2000 }
-        ],
-        description: "Choose between provided music, licensed library music, or premium custom music"
-    },
-    audio: {
-        title: "Additional Audio Design and SFX",
-        type: "stepped-range",
-        min: 0,
-        max: 2000,
-        step: 500,
-        labels: ["Standard", "£500", "£1,000", "£1,500", "£2,000"],
-        description: "Enhance your trailer with additional sound design and SFX passes"
-    },
-    motion: {
-        title: "Premium Motion Graphics",
-        type: "tiered",
-        tiers: [
-            { label: "None", price: 0 },
-            { label: "Basic", price: 3000 },
-            { label: "Standard", price: 6000 },
-            { label: "Premium", price: 9000 },
-            { label: "Custom", price: 12000 }
-        ],
-        description: "Add professional motion graphics and title cards to your trailer"
-    },
-    versioning: {
-        title: "Versioning",
-        type: "composite",
-        toggle: {
-            type: "toggle",
-            label: "Enable Custom Versions"
-        },
-        subOptions: {
-            portrait: {
-                type: "toggle",
-                label: "Portrait Version",
-                price: 1000
-            },
-            landscape: {
-                type: "toggle",
-                label: "Landscape Version",
-                price: 1000
-            },
-            square: {
-                type: "toggle",
-                label: "Square Version",
-                price: 1000
-            },
-            languages: {
-                type: "range",
-                label: "Language Packages",
-                min: 0,
-                max: 10,
-                step: 1,
-                pricePerUnit: 500,
-                labels: ["0", "2", "4", "6", "8", "10"]
-            }
-        }
-    }
-};
+// Add imports at the top
+import { exchangeRates, currencySymbols, packagePrices, serviceConfigs } from './config.js';
 
 // Load configurations on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadServiceConfigs();
+
+    // Load package details
+    const savedDetails = JSON.parse(localStorage.getItem('packageDetails')) || packageDetails;
+    Object.entries(savedDetails).forEach(([type, content]) => {
+        const textarea = document.getElementById(`${type}Details`);
+        if (textarea) {
+            textarea.value = content;
+        }
+    });
 });
 
 function loadServiceConfigs() {
@@ -263,7 +190,6 @@ function createServiceSection(id, config) {
 
 function saveConfigurations() {
     const config = {
-        // Package base prices
         packages: {
             rare: {
                 name: "Rare",
@@ -286,103 +212,25 @@ function saveConfigurations() {
                 description: "Premium experience with advanced gameplay and intricate storytelling"
             }
         },
-        
-        // Additional services
-        services: {
-            capture: {
-                name: "Direct Your Capture",
-                type: "range",
-                pricePerUnit: parseInt(document.getElementById('capture_price').value),
-                min: 0,
-                max: parseInt(document.getElementById('capture_max').value),
-                step: parseInt(document.getElementById('capture_step').value),
-                description: document.getElementById('capture_description').value,
-                labels: document.getElementById('capture_labels').value.split(',').map(l => l.trim())
-            },
-            voiceover: {
-                name: "Professional Voiceover",
-                type: "toggle",
-                price: parseInt(document.getElementById('voiceover_price').value),
-                description: document.getElementById('voiceover_description').value
-            },
-            music: {
-                name: "Music",
-                type: "select",
-                description: document.getElementById('music_description').value,
-                options: [
-                    {
-                        label: document.getElementById('music_opt0_label').value,
-                        price: parseInt(document.getElementById('music_opt0_price').value)
-                    },
-                    {
-                        label: document.getElementById('music_opt1_label').value,
-                        price: parseInt(document.getElementById('music_opt1_price').value)
-                    },
-                    {
-                        label: document.getElementById('music_opt2_label').value,
-                        price: parseInt(document.getElementById('music_opt2_price').value)
-                    }
-                ]
-            },
-            audio: {
-                name: "Additional Audio Design and SFX",
-                type: "stepped-range",
-                min: 0,
-                max: parseInt(document.getElementById('audio_max').value),
-                step: parseInt(document.getElementById('audio_step').value),
-                description: document.getElementById('audio_description').value,
-                labels: document.getElementById('audio_labels').value.split(',').map(l => l.trim())
-            },
-            motion: {
-                name: "Premium Motion Graphics",
-                type: "tiered",
-                description: document.getElementById('motion_description').value,
-                tiers: Array.from({ length: 5 }).map((_, i) => ({
-                    label: document.getElementById(`motion_tier${i}_label`).value,
-                    price: parseInt(document.getElementById(`motion_tier${i}_price`).value)
-                }))
-            },
-            versioning: {
-                name: "Versioning",
-                type: "composite",
-                description: "Custom versions for different platforms and languages",
-                toggle: {
-                    label: "Enable Custom Versions"
-                },
-                subOptions: {
-                    portrait: {
-                        name: "Portrait Version",
-                        type: "toggle",
-                        price: parseInt(document.getElementById('versioning_portrait_price').value)
-                    },
-                    landscape: {
-                        name: "Landscape Version",
-                        type: "toggle",
-                        price: parseInt(document.getElementById('versioning_landscape_price').value)
-                    },
-                    square: {
-                        name: "Square Version",
-                        type: "toggle",
-                        price: parseInt(document.getElementById('versioning_square_price').value)
-                    },
-                    languages: {
-                        name: "Language Packages",
-                        type: "range",
-                        pricePerUnit: parseInt(document.getElementById('versioning_languages_price').value),
-                        max: parseInt(document.getElementById('versioning_languages_max').value),
-                        step: 1,
-                        labels: ["0", "2", "4", "6", "8", "10"]
-                    }
-                }
-            }
-        }
+        services: {}
     };
 
-    // Save to localStorage
-    localStorage.setItem('estimatorConfig', JSON.stringify(config, null, 2));
-    
-    // Show success message
-    showToast('Configuration saved successfully!');
+    // Save service configurations
+    Object.entries(serviceConfigs).forEach(([id, defaultConfig]) => {
+        config.services[id] = {
+            ...defaultConfig,
+            // Update values from form inputs
+            basePrice: parseInt(document.getElementById(`${id}_price`)?.value) || defaultConfig.basePrice,
+            min: parseInt(document.getElementById(`${id}_min`)?.value) || defaultConfig.min,
+            max: parseInt(document.getElementById(`${id}_max`)?.value) || defaultConfig.max,
+            step: parseInt(document.getElementById(`${id}_step`)?.value) || defaultConfig.step,
+            description: document.getElementById(`${id}_description`)?.value || defaultConfig.description,
+            labels: document.getElementById(`${id}_labels`)?.value.split(',').map(l => l.trim()) || defaultConfig.labels
+        };
+    });
+
+    localStorage.setItem('estimatorConfig', JSON.stringify(config));
+    showToast('Configuration saved successfully', 'success');
 }
 
 function exportConfig() {

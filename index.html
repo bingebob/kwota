@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/estimator.css">
 </head>
 <body>
     <div class="container">
@@ -62,12 +61,22 @@
                     <label class="package-card rare">
                         <input type="radio" name="packageType" id="rare" value="rare" class="d-none">
                         <div class="card">
-                            <pixel-canvas data-gap="6" data-speed="35" data-colors="#4A9EFF,#7dd3fc,#0ea5e9"></pixel-canvas>
+                            <pixel-canvas data-gap="6" 
+                                         data-speed="35" 
+                                         data-colors="#334ceb,#4a5ef0,#6171f5"></pixel-canvas>
                             <div class="card-content">
                                 <div class="card-content-inner">
                                     <h3 class="h4 fw-bold mb-3">Rare</h3>
                                     <div class="h5 mb-3">£7,500</div>
                                     <p class="text-muted small">Using your game capture, we'll create a high-quality trailer with motion graphics</p>
+                                    <button type="button" 
+                                            class="info-button" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#packageInfoModal" 
+                                            data-package="rare"
+                                            onclick="event.preventDefault()">
+                                        <i class="bi bi-info-circle"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -85,6 +94,14 @@
                                     <h3 class="h4 fw-bold mb-3">Epic</h3>
                                     <div class="h5 mb-3">£10,000</div>
                                     <p class="text-muted small">We handle the game capture plus additional edit iterations</p>
+                                    <button type="button" 
+                                            class="info-button" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#packageInfoModal" 
+                                            data-package="epic"
+                                            onclick="event.preventDefault()">
+                                        <i class="bi bi-info-circle"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -102,6 +119,14 @@
                                     <h3 class="h4 fw-bold mb-3">Legendary</h3>
                                     <div class="h5 mb-3">£15,000</div>
                                     <p class="text-muted small">Extended collaboration with paper edit and motion graphics feedback</p>
+                                    <button type="button" 
+                                            class="info-button" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#packageInfoModal" 
+                                            data-package="legendary"
+                                            onclick="event.preventDefault()">
+                                        <i class="bi bi-info-circle"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -119,6 +144,14 @@
                                     <h3 class="h4 fw-bold mb-3">Mythic</h3>
                                     <div class="h5 mb-3">£20,000</div>
                                     <p class="text-muted small">Premium experience with advanced gameplay and intricate storytelling</p>
+                                    <button type="button" 
+                                            class="info-button" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#packageInfoModal" 
+                                            data-package="mythic"
+                                            onclick="event.preventDefault()">
+                                        <i class="bi bi-info-circle"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -131,173 +164,181 @@
         <section class="mb-5">
             <h2 class="h3 fw-bold mb-4">Additional Services</h2>
             
-            <!-- Direct Your Capture -->
-            <div class="service-section mb-4" id="captureGroup">
-                <h4 class="h5 fw-semibold mb-3">Direct Your Capture</h4>
-                <div class="slider-container d-flex align-items-center">
-                    <div class="flex-grow-1 me-3">
-                        <input type="range" id="capture" min="0" max="5" step="1" value="0"
-                               class="form-range">
-                    </div>
-                    <div class="slider-value">No Extra Sessions</div>
-                </div>
-                <div class="d-flex justify-content-between text-muted small px-2">
-                    <span>0</span>
-                    <span>1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                </div>
-            </div>
-
-            <!-- Voiceover -->
-            <div class="service-section mb-4">
-                <h4 class="h5 fw-semibold mb-3">Voiceover</h4>
-                <div class="slider-container d-flex align-items-center">
-                    <div class="flex-grow-1 me-3">
-                        <input type="range" id="voiceover" min="0" max="1" step="1" value="0"
-                               class="form-range">
-                    </div>
-                    <div class="slider-value">No Voiceover</div>
-                </div>
-                <div class="d-flex justify-content-between text-muted small px-2">
-                    <span>None</span>
-                    <span>£1,000</span>
-                </div>
-                <p class="text-muted small mt-2">Professional voiceover recording with remote casting from our roster of VO artists</p>
-            </div>
-
-            <!-- Music -->
-            <div class="service-section mb-4">
-                <h4 class="h5 fw-semibold mb-3">Music</h4>
-                <div class="slider-container d-flex align-items-center">
-                    <div class="flex-grow-1 me-3">
-                        <input type="range" id="music" min="0" max="2" step="1" value="0"
-                               class="form-range">
-                    </div>
-                    <div class="slider-value">Using Provided Music</div>
-                </div>
-                <div class="d-flex justify-content-between text-muted small px-2">
-                    <span>Provided</span>
-                    <span>Library £575</span>
-                    <span>Premium £2,000</span>
-                </div>
-                <p class="text-muted small mt-2">Choose between using your provided music, licensed library music, or premium custom music</p>
-            </div>
-
-            <!-- Audio Design -->
-            <div class="service-section mb-4">
-                <h4 class="h5 fw-semibold mb-3">Additional Audio Design and SFX</h4>
-                <div class="slider-container d-flex align-items-center">
-                    <div class="flex-grow-1 me-3">
-                        <input type="range" id="audio" min="0" max="2000" step="500" value="0"
-                               class="form-range">
-                    </div>
-                    <div class="slider-value">Standard Mix</div>
-                </div>
-                <div class="d-flex justify-content-between text-muted small px-2">
-                    <span>Standard</span>
-                    <span>£500</span>
-                    <span>£1,000</span>
-                    <span>£1,500</span>
-                    <span>£2,000</span>
-                </div>
-                <p class="text-muted small mt-2">Enhance your trailer with additional sound design and SFX passes</p>
-            </div>
-
-            <!-- Motion Graphics -->
-            <div class="service-section mb-4">
-                <h4 class="h5 fw-semibold mb-3">Premium Motion Graphics</h4>
-                <div class="slider-container d-flex align-items-center">
-                    <div class="flex-grow-1 me-3">
-                        <input type="range" id="motion" 
-                               min="0" max="12000" step="3000" value="0"
-                               list="motion-steps"
-                               class="form-range">
-                        <datalist id="motion-steps">
-                            <option value="0"></option>
-                            <option value="3000"></option>
-                            <option value="6000"></option>
-                            <option value="9000"></option>
-                            <option value="12000"></option>
-                        </datalist>
-                    </div>
-                    <div class="slider-value">No Title Cards</div>
-                </div>
-                <div class="service-description text-muted small mt-1"></div>
-            </div>
-
-            <!-- Versioning -->
-            <div class="service-section mb-4">
-                <h4 class="h5 fw-semibold mb-3">Versioning</h4>
-                <div class="slider-container d-flex align-items-center">
-                    <div class="flex-grow-1 me-3">
-                        <input type="range" id="versioning" min="0" max="1" step="1" value="0"
-                               class="form-range">
-                    </div>
-                    <div class="slider-value">Standard Version</div>
-                </div>
-                <div class="d-flex justify-content-between text-muted small px-2">
-                    <span>Standard</span>
-                    <span>Custom</span>
-                </div>
-                
-                <!-- Sub-sliders -->
-                <div id="versioningOptions" class="d-none mt-4 ps-4 border-start border-danger">
-                    <!-- Portrait -->
-                    <div class="mb-4">
-                        <label class="form-label small fw-medium">Portrait Version</label>
-                        <div class="slider-container d-flex align-items-center">
-                            <div class="flex-grow-1 me-3">
-                                <input type="range" id="portrait" min="0" max="1" step="1" value="0"
-                                       class="form-range">
+            <div class="additional-services-container">
+                <!-- Direct Your Capture -->
+                <div class="service-section mb-4" id="captureGroup">
+                    <h4 class="h5 fw-semibold mb-3">Direct Your Capture</h4>
+                    <div class="slider-container">
+                        <div class="slider-wrapper">
+                            <input type="range" 
+                                   id="capture" 
+                                   min="0" 
+                                   max="5" 
+                                   step="1" 
+                                   value="0"
+                                   class="form-range">
+                            <div class="slider-ticks">
+                                <span>0</span>
+                                <span>1</span>
+                                <span>2</span>
+                                <span>3</span>
+                                <span>4</span>
+                                <span>5</span>
                             </div>
-                            <div class="slider-value">No</div>
                         </div>
+                        <div class="slider-value">No Extra Sessions</div>
                     </div>
+                    <div class="service-description text-muted small mt-1"></div>
+                </div>
 
-                    <!-- Landscape -->
-                    <div class="mb-4">
-                        <label class="form-label small fw-medium">Landscape Version</label>
-                        <div class="slider-container d-flex align-items-center">
-                            <div class="flex-grow-1 me-3">
-                                <input type="range" id="landscape" min="0" max="1" step="1" value="0"
-                                       class="form-range">
-                            </div>
-                            <div class="slider-value">No</div>
+                <!-- Voiceover -->
+                <div class="service-section mb-4">
+                    <h4 class="h5 fw-semibold mb-3">Voiceover</h4>
+                    <div class="slider-container d-flex align-items-center">
+                        <div class="flex-grow-1 me-3">
+                            <input type="range" id="voiceover" min="0" max="1" step="1" value="0"
+                                   class="form-range">
                         </div>
+                        <div class="slider-value">No Voiceover</div>
                     </div>
-
-                    <!-- Square -->
-                    <div class="mb-4">
-                        <label class="form-label small fw-medium">Square Version</label>
-                        <div class="slider-container d-flex align-items-center">
-                            <div class="flex-grow-1 me-3">
-                                <input type="range" id="square" min="0" max="1" step="1" value="0"
-                                       class="form-range">
-                            </div>
-                            <div class="slider-value">No</div>
-                        </div>
+                    <div class="d-flex justify-content-between text-muted small px-2">
+                        <span>None</span>
+                        <span>£1,000</span>
                     </div>
+                    <p class="text-muted small mt-2">Professional voiceover recording with remote casting from our roster of VO artists</p>
+                </div>
 
-                    <!-- Languages -->
-                    <div class="mb-4">
-                        <label class="form-label small fw-medium">Language Packages</label>
-                        <div class="slider-container d-flex align-items-center">
-                            <div class="flex-grow-1 me-3">
-                                <input type="range" id="languages" min="0" max="10" step="1" value="0"
-                                       class="form-range">
-                            </div>
-                            <div class="slider-value">None</div>
+                <!-- Music -->
+                <div class="service-section mb-4">
+                    <h4 class="h5 fw-semibold mb-3">Music</h4>
+                    <div class="slider-container d-flex align-items-center">
+                        <div class="flex-grow-1 me-3">
+                            <input type="range" id="music" min="0" max="2" step="1" value="0"
+                                   class="form-range">
                         </div>
-                        <div class="d-flex justify-content-between text-muted small px-2">
-                            <span>0</span>
-                            <span>2</span>
-                            <span>4</span>
-                            <span>6</span>
-                            <span>8</span>
-                            <span>10</span>
+                        <div class="slider-value">Using Provided Music</div>
+                    </div>
+                    <div class="d-flex justify-content-between text-muted small px-2">
+                        <span>Provided</span>
+                        <span>Library £575</span>
+                        <span>Premium £2,000</span>
+                    </div>
+                    <p class="text-muted small mt-2">Choose between using your provided music, licensed library music, or premium custom music</p>
+                </div>
+
+                <!-- Audio Design -->
+                <div class="service-section mb-4">
+                    <h4 class="h5 fw-semibold mb-3">Additional Audio Design and SFX</h4>
+                    <div class="slider-container d-flex align-items-center">
+                        <div class="flex-grow-1 me-3">
+                            <input type="range" id="audio" min="0" max="2000" step="500" value="0"
+                                   class="form-range">
+                        </div>
+                        <div class="slider-value">Standard Mix</div>
+                    </div>
+                    <div class="d-flex justify-content-between text-muted small px-2">
+                        <span>Standard</span>
+                        <span>£500</span>
+                        <span>£1,000</span>
+                        <span>£1,500</span>
+                        <span>£2,000</span>
+                    </div>
+                    <p class="text-muted small mt-2">Enhance your trailer with additional sound design and SFX passes</p>
+                </div>
+
+                <!-- Motion Graphics -->
+                <div class="service-section mb-4">
+                    <h4 class="h5 fw-semibold mb-3">Premium Motion Graphics</h4>
+                    <div class="slider-container d-flex align-items-center">
+                        <div class="flex-grow-1 me-3">
+                            <input type="range" id="motion" 
+                                   min="0" max="12000" step="3000" value="0"
+                                   list="motion-steps"
+                                   class="form-range">
+                            <datalist id="motion-steps">
+                                <option value="0"></option>
+                                <option value="3000"></option>
+                                <option value="6000"></option>
+                                <option value="9000"></option>
+                                <option value="12000"></option>
+                            </datalist>
+                        </div>
+                        <div class="slider-value">No Title Cards</div>
+                    </div>
+                    <div class="service-description text-muted small mt-1"></div>
+                </div>
+
+                <!-- Versioning -->
+                <div class="service-section mb-4">
+                    <h4 class="h5 fw-semibold mb-3">Versioning</h4>
+                    <div class="slider-container d-flex align-items-center">
+                        <div class="flex-grow-1 me-3">
+                            <input type="range" id="versioning" min="0" max="1" step="1" value="0"
+                                   class="form-range">
+                        </div>
+                        <div class="slider-value">Standard Version</div>
+                    </div>
+                    <div class="d-flex justify-content-between text-muted small px-2">
+                        <span>Standard</span>
+                        <span>Custom</span>
+                    </div>
+                    
+                    <!-- Sub-sliders -->
+                    <div id="versioningOptions" class="d-none mt-4 ps-4 border-start border-danger">
+                        <!-- Portrait -->
+                        <div class="mb-4">
+                            <label class="form-label small fw-medium">Portrait Version</label>
+                            <div class="slider-container d-flex align-items-center">
+                                <div class="flex-grow-1 me-3">
+                                    <input type="range" id="portrait" min="0" max="1" step="1" value="0"
+                                           class="form-range">
+                                </div>
+                                <div class="slider-value">No</div>
+                            </div>
+                        </div>
+
+                        <!-- Landscape -->
+                        <div class="mb-4">
+                            <label class="form-label small fw-medium">Landscape Version</label>
+                            <div class="slider-container d-flex align-items-center">
+                                <div class="flex-grow-1 me-3">
+                                    <input type="range" id="landscape" min="0" max="1" step="1" value="0"
+                                           class="form-range">
+                                </div>
+                                <div class="slider-value">No</div>
+                            </div>
+                        </div>
+
+                        <!-- Square -->
+                        <div class="mb-4">
+                            <label class="form-label small fw-medium">Square Version</label>
+                            <div class="slider-container d-flex align-items-center">
+                                <div class="flex-grow-1 me-3">
+                                    <input type="range" id="square" min="0" max="1" step="1" value="0"
+                                           class="form-range">
+                                </div>
+                                <div class="slider-value">No</div>
+                            </div>
+                        </div>
+
+                        <!-- Languages -->
+                        <div class="mb-4">
+                            <label class="form-label small fw-medium">Language Packages</label>
+                            <div class="slider-container d-flex align-items-center">
+                                <div class="flex-grow-1 me-3">
+                                    <input type="range" id="languages" min="0" max="10" step="1" value="0"
+                                           class="form-range">
+                                </div>
+                                <div class="slider-value">None</div>
+                            </div>
+                            <div class="d-flex justify-content-between text-muted small px-2">
+                                <span>0</span>
+                                <span>2</span>
+                                <span>4</span>
+                                <span>6</span>
+                                <span>8</span>
+                                <span>10</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -368,8 +409,24 @@
         </div>
     </div>
 
+    <!-- Add this modal at the bottom of the body -->
+    <div class="modal fade" id="packageInfoModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark border-danger">
+                <div class="modal-header border-bottom border-danger">
+                    <h5 class="modal-title" id="packageInfoTitle">Package Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="packageInfoContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="js/config.js"></script>
+    <script src="js/pixel-canvas.js"></script>
     <script src="js/main.js"></script>
     <!-- Add Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -380,8 +437,5 @@
             <path d="M 0,0.5 C 0,0 0,0 0.5,0 S 1,0 1,0.5 1,1 0.5,1 0,1 0,0.5" />
         </clipPath>
     </svg>
-
-    <!-- Add before closing body tag -->
-    <script src="js/pixel-canvas.js"></script>
 </body>
 </html>

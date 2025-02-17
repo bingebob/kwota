@@ -87,6 +87,12 @@ class Pixel {
 }
 
 class PixelCanvas extends HTMLElement {
+    constructor() {
+        super();
+        this.isSelected = false;
+        this.animation = null;
+    }
+
     static register(tag = "pixel-canvas") {
         if ("customElements" in window) {
             customElements.define(tag, this);
@@ -205,8 +211,13 @@ class PixelCanvas extends HTMLElement {
     }
 
     onmouseleave() {
-        // Only disappear if not selected
-        if (!this.isSelected) {
+        // Check if radio button is checked
+        const radioInput = this._parent.querySelector('input[type="radio"]');
+        if (radioInput && radioInput.checked) {
+            // Keep animation running if selected
+            this.handleAnimation("appear");
+        } else {
+            // Otherwise disappear
             this.handleAnimation("disappear");
         }
     }
@@ -218,7 +229,14 @@ class PixelCanvas extends HTMLElement {
 
     onfocusout(e) {
         if (e.currentTarget.contains(e.relatedTarget)) return;
-        this.handleAnimation("disappear");
+        
+        // Check if radio button is checked, similar to onmouseleave
+        const radioInput = this._parent.querySelector('input[type="radio"]');
+        if (radioInput && radioInput.checked) {
+            this.handleAnimation("appear");
+        } else {
+            this.handleAnimation("disappear");
+        }
     }
 
     handleAnimation(name) {
@@ -277,21 +295,26 @@ class PixelCanvas extends HTMLElement {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         for (let i = 0; i < this.pixels.length; i++) {
-            this.pixels[i][fnName]();
+            // If selected, force appear animation
+            this.pixels[i][this.isSelected ? "appear" : fnName]();
         }
 
-        // Only cancel animation if not selected and all pixels are idle
+        // Only cancel if not selected and all pixels are idle
         if (!this.isSelected && this.pixels.every((pixel) => pixel.isIdle)) {
             cancelAnimationFrame(this.animation);
         }
     }
 
     handleSelectionChange() {
-        const isSelected = this._parent.querySelector('input[type="radio"]').checked;
-        if (isSelected) {
-            this.handleAnimation("appear");
-            // Keep animation running when selected
+        const radioInput = this._parent.querySelector('input[type="radio"]');
+        if (radioInput && radioInput.checked) {
             this.isSelected = true;
+            // Force continuous animation
+            this.pixels.forEach(pixel => {
+                pixel.isIdle = false;
+                pixel.isShimmer = true;
+            });
+            this.handleAnimation("appear");
         } else {
             this.isSelected = false;
             this.handleAnimation("disappear");

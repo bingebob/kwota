@@ -1,117 +1,41 @@
 // Main JavaScript functionality
 // ... all the existing JavaScript functions ... 
 
-// Add this at the top of main.js
-const defaultConfig = {
-    packages: {
-        rare: {
-            name: "Rare",
-            price: 7500,
-            description: "Using your game capture, we'll create a high-quality trailer with motion graphics"
-        },
-        epic: {
-            name: "Epic",
-            price: 10000,
-            description: "We handle the game capture plus additional edit iterations"
-        },
-        legendary: {
-            name: "Legendary",
-            price: 15000,
-            description: "Extended collaboration with paper edit and motion graphics feedback"
-        },
-        mythic: {
-            name: "Mythic",
-            price: 20000,
-            description: "Premium experience with advanced gameplay and intricate storytelling"
-        }
-    },
-    services: {
-        capture: {
-            name: "Direct Your Capture",
-            type: "range",
-            pricePerUnit: 360,
-            min: 0,
-            max: 5,
-            step: 1,
-            description: "Cost per capture session",
-            labels: ["0", "1", "2", "3", "4", "5"]
-        },
-        voiceover: {
-            name: "Voiceover",
-            type: "toggle",
-            price: 1000,
-            description: "Professional voiceover recording"
-        },
-        music: {
-            name: "Music",
-            type: "select",
-            options: [
-                { label: "Using Provided Music", price: 0 },
-                { label: "Library Music", price: 575 },
-                { label: "Premium Music", price: 2000 }
-            ]
-        },
-        audio: {
-            name: "Additional Audio Design and SFX",
-            type: "stepped-range",
-            min: 0,
-            max: 2000,
-            step: 500,
-            labels: ["Standard", "£500", "£1,000", "£1,500", "£2,000"]
-        },
-        motion: {
-            name: "Premium Motion Graphics",
-            type: "tiered",
-            tiers: [
-                { label: "None", price: 0 },
-                { label: "Basic", price: 3000 },
-                { label: "Standard", price: 6000 },
-                { label: "Premium", price: 9000 },
-                { label: "Custom", price: 12000 }
-            ]
-        },
-        versioning: {
-            name: "Versioning",
-            type: "composite",
-            toggle: {
-                label: "Enable Custom Versions"
-            },
-            subOptions: {
-                portrait: {
-                    name: "Portrait Version",
-                    type: "toggle",
-                    price: 1000
-                },
-                landscape: {
-                    name: "Landscape Version",
-                    type: "toggle",
-                    price: 1000
-                },
-                square: {
-                    name: "Square Version",
-                    type: "toggle",
-                    price: 1000
-                },
-                languages: {
-                    name: "Language Packages",
-                    type: "range",
-                    pricePerUnit: 500,
-                    max: 10,
-                    step: 1,
-                    labels: ["0", "2", "4", "6", "8", "10"]
-                }
-            }
-        }
-    }
-};
+// Add this function to handle slider snapping
+function snapSliderToIncrement(slider) {
+    const step = parseFloat(slider.step) || 1;
+    const newValue = Math.round(slider.value / step) * step;
+    slider.value = newValue;
+    updateSliderUI(slider);
+}
 
-// Update slider values and calculations in real-time
-document.querySelectorAll('input[type="range"], input[type="radio"]').forEach(input => {
-    input.addEventListener('input', () => {
+// Update the event listeners for sliders
+document.querySelectorAll('input[type="range"]').forEach(slider => {
+    slider.addEventListener('input', () => {
+        updateSliderUI(slider);
         updateSliderValues();
         updateEstimate();
     });
+
+    slider.addEventListener('change', () => {
+        snapSliderToIncrement(slider);
+    });
 });
+
+// Update the slider UI function
+function updateSliderUI(slider) {
+    if (!slider) return;
+    const value = parseFloat(slider.value);
+    const min = parseFloat(slider.min);
+    const max = parseFloat(slider.max);
+    const progress = ((value - min) / (max - min)) * 100;
+    
+    // Update the background gradient
+    slider.style.background = `linear-gradient(to right, 
+        var(--tf-accent) ${progress}%, 
+        var(--tf-gray) ${progress}%
+    )`;
+}
 
 // Handle currency selection
 document.querySelectorAll('.currency-option').forEach(option => {
@@ -136,164 +60,73 @@ document.getElementById('versioning')?.addEventListener('input', function() {
     }
 });
 
-// Helper Functions
-function updateSliderUI(slider) {
-    if (!slider) return;
-    const value = parseInt(slider.value);
-    const max = parseInt(slider.max);
-    const progress = (value / max) * 100;
-    
-    // Add custom styling for the progress
-    slider.style.background = `linear-gradient(to right, var(--tf-accent) ${progress}%, var(--tf-gray) ${progress}%)`;
-}
-
+// Core functions for price calculation and UI updates
 function updateSliderValues() {
-    const config = JSON.parse(localStorage.getItem('estimatorConfig'));
-    if (!config) return;
+    const activeButton = document.querySelector('.currency-option-small.active');
+    if (!activeButton) return;
 
-    const currentCurrency = document.querySelector('.currency-option.active')?.dataset.currency;
-    if (!currentCurrency) return;
-    
-    const rate = exchangeRates[currentCurrency];
-    const symbol = currencySymbols[currentCurrency];
+    const currency = activeButton.dataset.currency;
+    const rate = exchangeRates[currency];
+    const symbol = currencySymbols[currency];
 
     document.querySelectorAll('input[type="range"]').forEach(slider => {
         const value = parseInt(slider.value);
         const display = slider.nextElementSibling;
-        const descriptionEl = slider.closest('.mb-4').querySelector('.service-description');
+        const config = serviceConfigs[slider.id];
         
-        if (display && config.services[slider.id]) {
-            const serviceConfig = config.services[slider.id];
-            
-            // Update description
-            if (descriptionEl && serviceLevelDescriptions[slider.id]) {
-                descriptionEl.textContent = serviceLevelDescriptions[slider.id][value] || '';
-            }
-            
-            // Update value display based on type
-            switch(slider.id) {
-                case 'capture':
-                    const captureCost = value * 360;
-                    display.textContent = captureCost > 0 ? 
-                        `${value} Session${value > 1 ? 's' : ''} (${symbol}${(captureCost * rate).toLocaleString()})` : 
-                        'No Extra Sessions';
-                    break;
-                case 'voiceover':
-                    display.textContent = value === 1 ? 
-                        `Professional VO (${symbol}${(1000 * rate).toLocaleString()})` : 
-                        'No Voiceover';
-                    break;
-                case 'music':
-                    const musicCosts = [0, 575, 2000];
-                    const musicLabels = ['Using Provided Music', 'Library Music', 'Premium Music'];
-                    display.textContent = value === 0 ? 
-                        musicLabels[0] : 
-                        `${musicLabels[value]} (${symbol}${(musicCosts[value] * rate).toLocaleString()})`;
-                    break;
-                case 'audio':
-                    display.textContent = value > 0 ? 
-                        `${symbol}${(value * rate).toLocaleString()}` : 
-                        'Standard Mix';
-                    break;
-                case 'motion':
-                    const motionCosts = [0, 3000, 6000, 9000, 12000];
-                    const motionLabels = ['No Title Cards', 'Basic', 'Standard', 'Premium', 'Custom'];
-                    const motionIndex = Math.floor(value / 3000);
-                    display.textContent = value > 0 ? 
-                        `${motionLabels[motionIndex]} (${symbol}${(value * rate).toLocaleString()})` : 
-                        'No Title Cards';
-                    break;
-                case 'portrait':
-                case 'landscape':
-                case 'square':
-                    display.textContent = value === 1 ? 
-                        `Yes (${symbol}${(1000 * rate).toLocaleString()})` : 
-                        'No';
-                    break;
-                case 'languages':
-                    const languageCost = value * 500;
-                    display.textContent = value > 0 ? 
-                        `${value} Language${value > 1 ? 's' : ''} (${symbol}${(languageCost * rate).toLocaleString()})` : 
-                        'None';
-                    break;
-                case 'versioning':
-                    display.textContent = value === 1 ? 'Custom Versions' : 'Standard Version';
-                    break;
-            }
+        if (display && config) {
+            let description = config.levelDescriptions[value] || '';
+            description = description.replace(/£(\d+,?\d*)/g, (match, price) => {
+                const convertedPrice = Math.round(parseInt(price.replace(',', '')) * rate);
+                return `${symbol}${convertedPrice.toLocaleString()}`;
+            });
+            display.textContent = description;
         }
     });
 }
 
 function updateEstimate() {
-    try {
-        // Get selected package and currency
-        const selectedPackage = document.querySelector('input[name="packageType"]:checked');
-        const currencyOption = document.querySelector('.currency-option-small.active');
-        
-        // If no package selected, show default state
-        if (!selectedPackage || !currencyOption) {
-            document.getElementById('basePrice').textContent = 'Select a package';
-            document.getElementById('additionalPrice').textContent = '£0';
-            document.getElementById('totalPrice').textContent = 'Select a package';
-            return;
-        }
-
-        // Get currency info
-        const currency = currencyOption.dataset.currency;
-        const rate = exchangeRates[currency];
-        const symbol = currencySymbols[currency];
-
-        // Calculate base price
-        const basePrice = packagePrices[selectedPackage.value];
-        let additionalCosts = 0;
-
-        // Calculate additional costs
-        if (selectedPackage.value === 'rare') {
-            additionalCosts += parseInt(document.getElementById('capture').value) * 360;
-        }
-
-        // Add other costs
-        if (document.getElementById('voiceover').value === '1') additionalCosts += 1000;
-        additionalCosts += [0, 575, 2000][parseInt(document.getElementById('music').value)];
-        additionalCosts += parseInt(document.getElementById('audio').value);
-        additionalCosts += parseInt(document.getElementById('motion').value);
-
-        // Versioning costs
-        if (document.getElementById('versioning').value === '1') {
-            if (document.getElementById('portrait').value === '1') additionalCosts += 1000;
-            if (document.getElementById('landscape').value === '1') additionalCosts += 1000;
-            if (document.getElementById('square').value === '1') additionalCosts += 1000;
-            additionalCosts += parseInt(document.getElementById('languages').value) * 500;
-        }
-
-        // Convert to selected currency
-        const convertedBase = basePrice * rate;
-        const convertedAdditional = additionalCosts * rate;
-        const total = convertedBase + convertedAdditional;
-
-        // Format numbers
-        const formatNumber = (num) => num.toLocaleString(undefined, {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        });
-
-        // Update display
-        document.getElementById('basePrice').textContent = `${symbol}${formatNumber(convertedBase)}`;
-        document.getElementById('additionalPrice').textContent = `${symbol}${formatNumber(convertedAdditional)}`;
-        document.getElementById('totalPrice').textContent = `${symbol}${formatNumber(total)}`;
-
-        // Enable/disable quote button
-        const quoteButton = document.querySelector('button[onclick="showQuote()"]');
-        if (quoteButton) {
-            quoteButton.disabled = !selectedPackage;
-        }
-    } catch (error) {
-        console.error('Error updating estimate:', error);
-        showToast('Error calculating estimate. Please try again.', 'danger');
+    const selectedPackage = document.querySelector('input[name="packageType"]:checked');
+    const currencyOption = document.querySelector('.currency-option-small.active');
+    
+    if (!selectedPackage || !currencyOption) {
+        document.getElementById('basePrice').textContent = 'Select a package';
+        document.getElementById('additionalPrice').textContent = '£0';
+        document.getElementById('totalPrice').textContent = 'Select a package';
+        return;
     }
+
+    const currency = currencyOption.dataset.currency;
+    const rate = exchangeRates[currency];
+    const symbol = currencySymbols[currency];
+
+    const basePrice = packagePrices[selectedPackage.value] * rate;
+    let additionalCosts = 0;
+
+    // Calculate additional costs from services
+    Object.entries(serviceConfigs).forEach(([id, config]) => {
+        const slider = document.getElementById(id);
+        if (slider) {
+            const value = parseInt(slider.value);
+            if (config.basePrice) {
+                additionalCosts += value * config.basePrice;
+            } else if (config.price) {
+                additionalCosts += value * config.price;
+            } else if (config.prices) {
+                additionalCosts += config.prices[value] || 0;
+            }
+        }
+    });
+
+    additionalCosts *= rate;
+
+    // Update display
+    document.getElementById('basePrice').textContent = `${symbol}${Math.round(basePrice).toLocaleString()}`;
+    document.getElementById('additionalPrice').textContent = `${symbol}${Math.round(additionalCosts).toLocaleString()}`;
+    document.getElementById('totalPrice').textContent = `${symbol}${Math.round(basePrice + additionalCosts).toLocaleString()}`;
 }
 
-// Initialize when document is ready
+// Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize config if not exists
     if (!localStorage.getItem('estimatorConfig')) {
@@ -303,64 +136,51 @@ document.addEventListener('DOMContentLoaded', () => {
     // Package selection
     document.querySelectorAll('input[name="packageType"]').forEach(radio => {
         radio.addEventListener('change', () => {
-            updateSliderValues();
-            updateEstimate();
+            updateServiceVisibility();
+            const pixelCanvas = radio.closest('.package-card').querySelector('pixel-canvas');
+            if (pixelCanvas) pixelCanvas.handleSelectionChange();
         });
     });
 
-    // Range inputs
-    document.querySelectorAll('input[type="range"]').forEach(slider => {
-        slider.addEventListener('input', () => {
-            updateSliderUI(slider);
-            updateSliderValues();
-            updateEstimate();
-        });
-    });
-
-    // Versioning slider special handling
-    const versioningSlider = document.getElementById('versioning');
-    if (versioningSlider) {
-        versioningSlider.addEventListener('input', function() {
-            const subSliders = document.getElementById('versioningOptions');
-            if (this.value === '1') {
-                subSliders.classList.remove('d-none');
-            } else {
-                subSliders.classList.add('d-none');
-            }
-            updateEstimate();
-        });
-    }
-
-    // Currency selector
-    document.querySelectorAll('.currency-option-small').forEach(option => {
-        option.addEventListener('click', function() {
-            document.querySelectorAll('.currency-option-small').forEach(opt => {
-                opt.classList.remove('active');
-                opt.setAttribute('aria-pressed', 'false');
-            });
-            
+    // Currency selection
+    document.querySelectorAll('.currency-option-small').forEach(button => {
+        button.addEventListener('click', function() {
+            document.querySelectorAll('.currency-option-small').forEach(btn => 
+                btn.classList.remove('active')
+            );
             this.classList.add('active');
-            this.setAttribute('aria-pressed', 'true');
-            
-            updateDisplayedPrices();
             updateSliderValues();
             updateEstimate();
         });
     });
 
-    // Initialize with GBP
-    const gbpButton = document.querySelector('[data-currency="GBP"]');
-    if (gbpButton) {
-        gbpButton.classList.add('active');
-        gbpButton.setAttribute('aria-pressed', 'true');
-    }
-
-    // Initialize displays
-    updateDisplayedPrices();
+    // Initialize
+    updateServiceVisibility();
     updateSliderValues();
     updateEstimate();
+
+    // Add event listener for info buttons
+    const packageInfoModal = document.getElementById('packageInfoModal');
+    if (packageInfoModal) {
+        packageInfoModal.addEventListener('show.bs.modal', (event) => {
+            const button = event.relatedTarget;
+            const packageType = button.dataset.package;
+            const modalTitle = packageInfoModal.querySelector('.modal-title');
+            const modalContent = packageInfoModal.querySelector('.modal-body');
+
+            modalTitle.textContent = `${packageType.charAt(0).toUpperCase() + packageType.slice(1)} Package Details`;
+            modalContent.innerHTML = `<pre class="text-light mb-0">${packageDetails[packageType]}</pre>`;
+        });
+    }
+
+    // Generate sliders from serviceConfigs
+    const servicesContainer = document.querySelector('.additional-services-container');
+    Object.entries(serviceConfigs).forEach(([id, config]) => {
+        servicesContainer.innerHTML += createSlider(config, id);
+    });
 });
 
+// Quote generation
 function showQuote() {
     const quoteButton = document.querySelector('button[onclick="showQuote()"]');
     quoteButton.disabled = true;
@@ -548,9 +368,9 @@ function updateDisplayedPrices() {
     const rate = exchangeRates[currency];
     const symbol = currencySymbols[currency];
 
-    // Update package prices using packagePrices from config.js
+    // Update package prices
     Object.entries(packagePrices).forEach(([type, price]) => {
-        const priceElement = document.querySelector(`.${type}-content .h5`);
+        const priceElement = document.querySelector(`.package-card.${type} .h5`);
         if (priceElement) {
             const convertedPrice = Math.round(price * rate);
             priceElement.textContent = `${symbol}${convertedPrice.toLocaleString()}`;
@@ -562,12 +382,17 @@ function updateDisplayedPrices() {
         const priceMatch = label.textContent.match(/[£$€](\d+,?\d*)/);
         if (priceMatch) {
             const price = parseInt(priceMatch[1].replace(',', ''));
-            const convertedPrice = price * rate;
+            const convertedPrice = Math.round(price * rate);
             label.textContent = label.textContent.replace(
                 /[£$€]\d+,?\d*/, 
                 `${symbol}${convertedPrice.toLocaleString()}`
             );
         }
+    });
+
+    // Update slider values
+    document.querySelectorAll('input[type="range"]').forEach(slider => {
+        updateSliderUI(slider);
     });
 }
 
@@ -648,3 +473,59 @@ function updateHeaderState(loading = false) {
 PixelCanvas.register();
 
 // ... other functions 
+
+function updateServiceVisibility() {
+    const selectedPackage = document.querySelector('input[name="packageType"]:checked')?.value;
+    if (!selectedPackage) return;
+
+    Object.entries(serviceConfigs).forEach(([serviceId, service]) => {
+        const serviceElement = document.getElementById(`${serviceId}Group`);
+        if (!serviceElement) return;
+
+        if (service.availableFor && !service.availableFor.includes(selectedPackage)) {
+            serviceElement.classList.add('service-included');
+            if (service.includedMessage) {
+                const messageEl = serviceElement.querySelector('.service-included-message') || 
+                    document.createElement('div');
+                messageEl.className = 'service-included-message text-muted small mt-2';
+                messageEl.textContent = service.includedMessage;
+                serviceElement.appendChild(messageEl);
+            }
+            const inputs = serviceElement.querySelectorAll('input');
+            inputs.forEach(input => {
+                if (input.type === 'range') input.value = input.min;
+            });
+        } else {
+            serviceElement.classList.remove('service-included');
+            const messageEl = serviceElement.querySelector('.service-included-message');
+            if (messageEl) messageEl.remove();
+        }
+    });
+
+    updateSliderValues();
+    updateEstimate();
+}
+
+function createSlider(config, id) {
+    return `
+        <div class="service-section mb-4" id="${id}Group">
+            <h4 class="h5 fw-semibold mb-3">${config.title}</h4>
+            <div class="slider-container">
+                <div class="slider-wrapper">
+                    <input type="range" 
+                           id="${id}" 
+                           min="${config.min}" 
+                           max="${config.max}" 
+                           step="${config.step}" 
+                           value="${config.min}"
+                           class="form-range">
+                    <div class="slider-ticks">
+                        ${config.labels.map(label => `<span>${label}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="slider-value">${config.levelDescriptions[0]}</div>
+            </div>
+            <div class="service-description text-muted small mt-1"></div>
+        </div>
+    `;
+} 

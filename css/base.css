@@ -1,35 +1,62 @@
-/* Variables */
+/* ==========================================================================
+   External Dependencies
+   ========================================================================== */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css");
+
+/* ==========================================================================
+   1. Variables & Root
+   ========================================================================== */
 :root {
     --tf-dark: #0D0D0D;
     --tf-light: #FFFFFF;
     --tf-accent: #FF3366;
     --tf-gray: #a06ced;
-    --rare: #4A9EFF;
-    --rare-rgb: 74, 158, 255;
+    /* Package Colors */
+    --rare: #334ceb;
+    --rare-rgb: 51, 76, 235;
     --epic: #B847FF;
     --epic-rgb: 184, 71, 255;
     --legendary: #FFB347;
     --legendary-rgb: 255, 179, 71;
     --mythic: #FF4747;
     --mythic-rgb: 255, 71, 71;
+    /* Surface Colors */
     --bg: #09090b;
     --surface-1: #101012;
     --surface-2: #27272a;
     --surface-3: #52525b;
+    /* Animations */
     --ease-out: cubic-bezier(0.5, 1, 0.89, 1);
     --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
 }
 
-/* Base Styles */
+/* ==========================================================================
+   2. Base & Typography
+   ========================================================================== */
 body {
     background-color: var(--tf-dark);
     color: var(--tf-light);
     font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
-/* Header Styles */
-.logo { width: 200px; }
-.logo-small { width: 120px; height: auto; }
+/* ==========================================================================
+   3. Layout Components
+   ========================================================================== */
+/* Header */
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo { 
+    width: 200px; 
+}
+
+.logo-small { 
+    width: 120px; 
+    height: auto; 
+}
 
 .header-logo {
     transition: all 0.3s ease;
@@ -91,6 +118,11 @@ body {
     transition: transform 300ms var(--ease-out);
 }
 
+.package-card {
+    position: relative;
+    width: 100%;
+}
+
 /* Package Card Colors */
 .package-card.rare { --active-color: var(--rare); }
 .package-card.epic { --active-color: var(--epic); }
@@ -104,51 +136,32 @@ body {
     box-shadow: 0 0 20px rgba(var(--active-color-rgb), 0.3);
 }
 
-.package-card:hover .card::before,
 .package-card input[type="radio"]:checked + .card::before {
-    opacity: 0;
+    background: radial-gradient(
+        circle at bottom left,
+        transparent 45%,
+        var(--surface-1)
+    );
+    transition: all 900ms var(--ease-out);
 }
 
-/* Currency Selector */
-.currency-selector-compact {
-    display: flex;
-    gap: 0.5rem;
+/* Fixed Bottom Bar */
+.fixed-bottom {
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--tf-dark) 20%
+    );
+    padding-top: 2rem;
+    margin-top: -2rem;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+    z-index: 1030;
 }
 
-.currency-option-small {
-    background: transparent;
-    border: 1px solid var(--tf-gray);
-    color: var(--tf-light);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.875rem;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-
-    &:hover {
-        border-color: var(--tf-accent);
-        transform: translateY(-1px);
-    }
-
-    &.active {
-        background-color: var(--tf-accent);
-        border-color: var(--tf-accent);
-    }
-
-    & img {
-        width: 16px;
-        height: auto;
-    }
-
-    &.invalid {
-        border-color: #dc3545;
-        animation: shake 0.5s;
-    }
-}
-
-/* Form Elements */
+/* ==========================================================================
+   4. Form Elements
+   ========================================================================== */
+/* Form Controls */
 .form-control, 
 .input-group-text,
 textarea.form-control {
@@ -184,6 +197,78 @@ textarea.form-control:focus {
     opacity: 0.9;
 }
 
+/* Sliders */
+.slider-container {
+    display: grid;
+    grid-template-columns: 75% 25%;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.slider-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.slider-ticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    margin-top: 0.5rem;
+}
+
+.slider-value {
+    text-align: right;
+    white-space: nowrap;
+    color: var(--tf-light);
+    font-size: 0.875rem;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--tf-gray);
+    outline: none;
+    padding: 0;
+    margin: 0;
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--tf-accent);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid var(--tf-light);
+    }
+
+    &::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--tf-accent);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid var(--tf-light);
+    }
+
+    &:active::-webkit-slider-thumb {
+        transform: scale(1.2);
+    }
+
+    &:active::-moz-range-thumb {
+        transform: scale(1.2);
+    }
+}
+
+/* ==========================================================================
+   5. Interactive Elements
+   ========================================================================== */
 /* Buttons */
 .btn-danger {
     background-color: var(--tf-accent);
@@ -221,7 +306,74 @@ textarea.form-control:focus {
     }
 }
 
-/* Modal Styles */
+/* Currency Selector */
+.currency-selector-compact {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.currency-option-small {
+    background: transparent;
+    border: 1px solid var(--tf-gray);
+    color: var(--tf-light);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    &:hover {
+        border-color: var(--tf-accent);
+        transform: translateY(-1px);
+    }
+
+    &.active {
+        background-color: var(--tf-accent);
+        border-color: var(--tf-accent);
+    }
+
+    & img {
+        width: 16px;
+        height: auto;
+    }
+
+    &.invalid {
+        border-color: #dc3545;
+        animation: shake 0.5s;
+    }
+}
+
+/* Buttons */
+.info-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--tf-light);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    z-index: 3;
+    padding: 0.5rem;
+    line-height: 1;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    & i {
+        font-size: 1.25rem;
+    }
+}
+
+/* ==========================================================================
+   6. Modal & Overlays
+   ========================================================================== */
 .modal-content {
     background-color: var(--tf-dark);
     border: 2px solid var(--tf-accent);
@@ -237,20 +389,68 @@ textarea.form-control:focus {
     border-radius: 4px;
     background-color: rgba(255, 255, 255, 0.05);
     margin-bottom: 1rem;
-
-    &:last-child {
-        margin-bottom: 0;
-    }
 }
 
-/* Animations */
+.quote-section:last-child {
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   7. Admin Specific Styles
+   ========================================================================== */
+.admin-header {
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.service-config {
+    padding: 1.5rem;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.05);
+    margin-bottom: 1.5rem;
+}
+
+/* ==========================================================================
+   8. Utilities & Helpers
+   ========================================================================== */
+.service-included {
+    position: relative;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.service-included::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--tf-dark);
+    opacity: 0.5;
+    z-index: 1;
+}
+
+.service-included-message {
+    position: relative;
+    z-index: 2;
+    color: var(--tf-accent) !important;
+    font-style: italic;
+}
+
+.text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ==========================================================================
+   9. Animations
+   ========================================================================== */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-5px); }
     75% { transform: translateX(5px); }
 }
 
-/* Responsive Design */
+/* ==========================================================================
+   10. Media Queries
+   ========================================================================== */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -282,5 +482,33 @@ textarea.form-control:focus {
     }
 }
 
-/* External Dependencies */
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"); 
+/* Additional Services Container */
+.additional-services-container {
+    max-height: calc(100vh - 400px); /* Adjust height to leave space for header and total */
+    overflow-y: auto;
+    padding-right: 1rem;
+    margin-right: -1rem;
+    
+    /* Custom Scrollbar */
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: var(--tf-dark);
+        border-radius: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: var(--tf-accent);
+        border-radius: 4px;
+        
+        &:hover {
+            background: #ff1f57;
+        }
+    }
+}
+
+.service-included input {
+    opacity: 0.5;
+} 
